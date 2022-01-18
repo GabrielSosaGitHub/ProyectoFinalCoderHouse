@@ -1,0 +1,24 @@
+{% extends "padre.html" %}
+
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h1 class="mb-1">Borrar posteo</h1>
+        {% endblock %}
+
+
+        {% block contenido %}
+
+
+            <form method="post"> {% csrf_token %}
+
+                Estás a punto de borrar el siguiente posteo: 
+                
+                "{{ object }}"
+
+                <input type="submit" value="Confirmar" />
+
+            </form>        
+
+        {% endblock %}

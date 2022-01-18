@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -19,7 +20,8 @@ class Blogger(models.Model):
         return f"Blogger: {self.usuario.username}. Email: {self.usuario.email}. Registrado: {self.registrado}."
 
 class Posteo(models.Model):
-    titulo = models.CharField(max_length=200, unique=True)
+    titulo = models.CharField(max_length=50, unique=True)
+    subtitulo = models.CharField(max_length=100)
     autor = models.ForeignKey(Blogger, on_delete= models.CASCADE)
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now= True)

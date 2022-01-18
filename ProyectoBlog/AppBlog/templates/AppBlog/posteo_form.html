@@ -1,0 +1,23 @@
+{% extends "padre.html" %}
+
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h1 class="mb-1">Formulario de posteo</h1>
+        {% endblock %}
+
+
+        {% block contenido %}
+
+
+          <form method="POST"> {% csrf_token %}
+
+          {{form.as_p}}
+
+
+          <input type="submit" value="Cargar post" />
+
+          </form>
+
+        {% endblock %}
