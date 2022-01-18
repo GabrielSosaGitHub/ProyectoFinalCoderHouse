@@ -13,11 +13,8 @@ class BloggerFormulario(forms.Form):
 
 
 class PosteoFormulario(forms.Form):
-    titulo = forms.CharField(max_length=200, unique=True)
+    titulo = forms.CharField(max_length=50)
+    subtitulo = forms.CharField(max_length=100)
     autor = forms.CharField(max_length=50)
     contenido = forms.TextField()
     imagen = forms.ImageField()
-
-    def __str__(self):
-        return f"Título: {self.titulo}. Blogger: {self.autor.usuario.username}. Creado: {self.creado}. Actualizado: {self.actualizado}."
-

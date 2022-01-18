@@ -30,4 +30,3 @@ class Posteo(models.Model):
 
     def __str__(self):
         return f"Título: {self.titulo}. Blogger: {self.autor.usuario.username}. Creado: {self.creado}. Actualizado: {self.actualizado}."
-
