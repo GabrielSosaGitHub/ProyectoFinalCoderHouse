@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
-</head>
-<body>
+{% extends "padre.html" %}
 
-    <form action="" method="POST">
+{% load static %}
+
+        {% block contenido2 %}
+
+        <h3 class="masthead-heading text-uppercase mb-0">Login</h3>
+
+        {% endblock %}  
+
+        {% block contenido %}
+
+            <form action="" method="POST">
 
         {% csrf_token %}
 
         {{form.as_p}}
 
-        <input type="submit" value="Iniciar sesión">
+        <input type="submit" value="Login">
 
     </form>
-
+    <br>
+    
+    <h5>¿No sos usuario todavia? Entonces registrate.</h5>
+    <br>
+    <form action="{% url 'Register' %}">
+        <input type="submit" value="Registrate " />
+    </form>
 
     
-</body>
-</html>
+        {% endblock %}

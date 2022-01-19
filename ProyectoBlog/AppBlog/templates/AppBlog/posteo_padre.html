@@ -46,37 +46,19 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url({% static 'AppBlog/assets/img/home-bg.jpg'%})">
+        <header class="masthead" style="background-image: url('AppBlog/static/AppBlog/assets/img/post-bg.jpg')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            <h1>Python for the people <i class="fas fa-fist-raised"></i></h1>
-                            <hr class="my-4" />
-    {% block contenido2 %}
-    {% endblock %}
-<!--                            <span class="subheading">Programación que empodera</span> -->
-                        </div>
+                        {% block contenido %}
+                        {% endblock %}
                     </div>
                 </div>
             </div>
         </header>
-        <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <!-- Post preview-->
-                    {% block contenido %}
-                    {% endblock %}
-                    
-                    
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Pager-->
-                    <!--<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'Inicio' %}">Viejos Posteos →</a></div>-->
-                </div>
-            </div>
-        </div>
+        <!-- Post Content-->
+        {% block contenido2 %}
+        {% endblock %}
         <!-- Footer-->
         <footer class="border-top">
             <div class="container px-4 px-lg-5">

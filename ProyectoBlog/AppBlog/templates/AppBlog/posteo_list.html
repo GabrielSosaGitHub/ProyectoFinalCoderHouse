@@ -1,34 +1,40 @@
+<!DOCTYPE html>
 {% extends "padre.html" %}
-
 
 {% load static %}
 
         {% block contenido2 %}
-            <h1 class="mb-1">Lista de posteos</h1>
+            <h3 class="masthead-heading text-uppercase mb-0">Posteos realizados</h3>
         {% endblock %}
 
-
         {% block contenido %}
-
-          <p>Estos son todos los posteos disponibles:</p> <br>
           <ul>
-            {% for posteo in object_list %}
-            <li>
-
-              <p>Título: {{ posteo.titulo}}</p>
-
-              <p>
-              <a href="{% url 'Detail' curso.id %}">Ver más</a>
-              <a href="{% url 'Edit' curso.id %}">Editar</a>
-              <a href="{% url 'Delete' curso.id %}">Borrar</a>
-
+              {% for posteo in object_list %}
+              
+              <!-- Post preview-->
+              <div class="post-preview">
+                <a href="{% url 'PosteoDetalle' posteo.id %}">
+                    <h2 class="post-title">{{posteo.titulo}}</h2>
+                    <h3 class="post-subtitle">{{posteo.subtitulo}}</h3>
+                </a>
+                <p class="post-meta">
+                    Posteado por
+                    <a href="{% url 'BloggerDetalle' posteo.autor.usuario.id %}">{{posteo.autor.usuario.username}}</a>
+                    | {{posteo.creado}}
+                </p>
+            </div>
+            
+            <p class="post-meta">
+              <a href="{% url 'PosteoEditar' posteo.id %}">Editar</a>
+              <a href="{% url 'PosteoEliminar' posteo.id %}">Borrar</a>
             </p>
 
-            </li>
+            <!-- Divider-->
+            <hr class="my-4" />
 
-            {% endfor %}
+              
 
-
+              {% endfor %}
 
           </ul>
          

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+    {% block contenido2 %}
+        <h3 class="masthead-heading text-uppercase mb-0">Logout exitoso</h3>
+    {% endblock %}
+
+    {% block contenido %}
+
+        <br>
+    
+        <h3>Ya no estás logueado en el Blog <i class="far fa-sad-tear"></i></h3>
+
+        <br>
+
+    <form action="{% url 'Login' %}">
+        <input type="submit" value="¿Volver a ingresar?" />
+    </form>
+    
+    
+    
+        {% endblock %}
+
+    

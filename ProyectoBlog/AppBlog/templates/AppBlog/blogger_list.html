@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h3 class="masthead-heading text-uppercase mb-0">Bloggers</h3>
+        {% endblock %}
+
+        {% block contenido %}
+
+          <p>Nuestros bloggers:</p> <br>
+          <ul>
+              {% for blogger in object_list %}
+                  <li>
+
+                      <p>Nombre de usuario: {{ blogger.usuario.username }}</p>
+
+                              <p>
+                                <a href="{% url 'BloggerDetalle' blogger.id %}">Ver más</a>
+                                <a href="{% url 'BloggerEditar' blogger.id %}">Editar</a>
+                                <a href="{% url 'BloggerEliminar' blogger.id %}">Eliminar</a>
+
+                              </p>
+
+                  </li>
+
+              {% endfor %}
+
+          </ul>
+         
+
+        {% endblock %}

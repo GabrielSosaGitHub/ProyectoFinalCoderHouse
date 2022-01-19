@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+    {% block contenido2 %}
+        <h3 class="masthead-heading text-uppercase mb-0">Registro</h3>
+    {% endblock %}
+      
+    {% block contenido %}
+
+        <form action="" method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p}}
+
+            <input type="submit" value="Registrarme">
+
+        </form>
+
+    {% endblock %}

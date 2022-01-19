@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+{% block contenido %}
+
+        {% if formulario.errors %}
+
+        <p>Error ...!!!</p>
+
+        {% endif %}
+
+        <form action="/AppBlog/blogFormulario" method="POST">{% csrf_token %}
+
+                <table>
+                        {{ formulario.as_table }}
+                </table>
+
+                <input type="submit" value="Enviar">
+
+        </form>
+
+{% endblock %}

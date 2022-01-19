@@ -4,14 +4,14 @@
 {% load static %}
 
         {% block contenido2 %}
-            <b>Eliminar post</b>
+            <h3 class="masthead-heading text-uppercase mb-0">Eliminar cuenta</h3>
         {% endblock %}
 
         {% block contenido %}
 
             <form method="post"> {% csrf_token %}
 
-                ¿Estás seguro de eliminar el posteo "{{object.titulo}}"?
+                ¿Estás seguro de eliminar el blogger "{{object.usuario.username}}"?
                 <br>
                 <input type="submit" value="Sí, estoy seguro" />
 

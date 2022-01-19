@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h3 class="masthead-heading text-uppercase mb-0">Información del blogger</h3>
+        {% endblock %}
+
+        {% block contenido %}
+
+        <p>Nombre de usuario: <em> {{blogger.usuario.username}}</em></p>
+<!--        <p>Nombre y apellido: <em> {{blogger.usuario.first_name}} {{blogger.usuario.last_name}}</em></p> -->
+        <p>Nombre y apellido: <em> {{blogger.usuario.get_full_name}}</em></p>
+        <p>Email: <em> {{blogger.usuario.email}}</em></p>
+        <p>Se unió a la comunidad: <em> {{blogger.registrado}}</em></p>
+          <p>
+
+            <a href="{% url 'BloggersLista' %}">Regresar</a>
+
+          </p>
+         
+
+        {% endblock %}

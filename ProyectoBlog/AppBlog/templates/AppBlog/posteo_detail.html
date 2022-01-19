@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends "AppBlog/posteo_padre.html" %}
+
+{% load static %}
+
+        {% block contenido %}
+
+        <div class="post-heading">
+          <h1>{{posteo.titulo}}</h1>
+          <h2 class="subheading">{{posteo.subtitulo}}</h2>
+          <span class="meta">
+            Posteado por
+            <a href="{% url 'BloggerDetalle' posteo.autor.usuario.id %}">{{posteo.autor.usuario.username}}</a>
+            | {{posteo.creado}}
+          </span>
+        </div>
+
+        {% endblock %}
+
+
+        {% block contenido2 %}
+        <article class="mb-4">
+          <div class="container px-4 px-lg-5">
+              <div class="row gx-4 gx-lg-5 justify-content-center">
+                  <div class="col-md-10 col-lg-8 col-xl-7">
+                      <p>{{posteo.contenido}}</p>
+                      
+                  </div>
+              </div>
+          </div>
+      </article>
+      {% endblock %}
