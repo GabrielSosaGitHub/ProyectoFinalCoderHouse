@@ -16,19 +16,19 @@ class BloggerFormulario(forms.Form):
 class PosteoFormulario(forms.Form):
     titulo = forms.CharField(max_length=50)
     subtitulo = forms.CharField(max_length=100)
-    autor = forms.CharField(max_length=50)
+#    autor = forms.CharField(max_length=50)
     contenido = forms.CharField(widget=forms.Textarea)
     imagen = forms.ImageField()
 
 class UserRegisterForm(UserCreationForm):
 
-    #Obligatorios
+    # Obligatorios
     username = forms.CharField()
     email = forms.EmailField()
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repetir contraseña', widget=forms.PasswordInput) 
    
-   #Extra
+    # Opcional
     last_name = forms.CharField()
     first_name = forms.CharField()
     imagen_avatar = forms.ImageField(required=False)
@@ -44,8 +44,8 @@ class UserEditForm(UserCreationForm):
     email = forms.EmailField(label="Email")
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
-    last_name = forms.CharField()
-    first_name = forms.CharField()
+    last_name = forms.CharField(label="Apellido")
+    first_name = forms.CharField(label="Nombre")
         
     class Meta:
         model = User

@@ -10,7 +10,7 @@
           <h2 class="subheading">{{posteo.subtitulo}}</h2>
           <span class="meta">
             Posteado por
-            <a href="{% url 'BloggerDetalle' posteo.autor.usuario.id %}">{{posteo.autor.usuario.username}}</a>
+            <a href="{% url 'BloggerDetalle' posteo.autor.id %}">{{posteo.autor.usuario.username}}</a>
             | {{posteo.creado}}
           </span>
         </div>
@@ -23,7 +23,13 @@
           <div class="container px-4 px-lg-5">
               <div class="row gx-4 gx-lg-5 justify-content-center">
                   <div class="col-md-10 col-lg-8 col-xl-7">
-                      <p>{{posteo.contenido}}</p>
+                      <p>{{posteo.contenido|safe}}</p>
+                      <br>
+                      {% if posteo.imagen %}
+                      <div align="middle">
+                          <img src="{{ posteo.imagen.url }}" width = "600"/>
+                      </div>
+                      {% endif %}
                       
                   </div>
               </div>

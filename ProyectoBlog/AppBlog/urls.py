@@ -14,11 +14,16 @@ urlpatterns = [
     path(r'^editarPosteo/(?P<pk>\d+)$', views.PosteoEditar.as_view(), name='PosteoEditar'),
     path(r'^borrarPosteo/(?P<pk>\d+)$', views.PosteoEliminar.as_view(), name='PosteoEliminar'),
 
+    path('posteoFormulario', views.posteoFormulario, name='PosteoFormulario'),
+    path('editarPosteo/<posteo_id>/', views.editarPosteo, name='EditarPosteo'),
+
     path('blogger/list', views.BloggersLista.as_view(), name='BloggersLista'),
     path(r'^detalleBlogger/(?P<pk>\d+)$', views.BloggerDetalle.as_view(), name='BloggerDetalle'),
     path(r'^nuevoBlogger$', views.BloggerCrear.as_view(), name='BloggerCrear'),
     path(r'^editarBlogger/(?P<pk>\d+)$', views.BloggerEditar.as_view(), name='BloggerEditar'),
     path(r'^borrarBlogger/(?P<pk>\d+)$', views.BloggerEliminar.as_view(), name='BloggerEliminar'),
+
+    path('bloggerFormulario', views.bloggerFormulario, name='BloggerFormulario'),
 
     path('login', views.login_request, name='Login'),
     path('register', views.register, name="Register"),

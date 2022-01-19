@@ -7,11 +7,11 @@
 
         {% if formulario.errors %}
 
-        <p>Error ...!!!</p>
+        <p>Se ha produciodo un error. Click <a href="{% url 'Inicio' }">aquí</a> para volver al inicio.</p>
 
         {% endif %}
 
-        <form action="/AppBlog/blogFormulario" method="POST">{% csrf_token %}
+        <form action="/AppBlog/bloggerFormulario" method="POST">{% csrf_token %}
 
                 <table>
                         {{ formulario.as_table }}

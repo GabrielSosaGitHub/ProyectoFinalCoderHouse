@@ -23,6 +23,7 @@ from django.contrib.auth.decorators import login_required
 # Decorador de Django por defecto
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
 
 # Vista de inicio.
@@ -64,38 +65,135 @@ class PosteoEliminar(DeleteView):
     model = Posteo
     success_url = "../posteo/list"
 
+@login_required
+def posteoFormulario(request):
+    if request.method == 'POST':
+
+        formulario = PosteoFormulario(request.POST, request.FILES)
+
+        if formulario.is_valid():
+
+                informacion = formulario.cleaned_data
+
+#                usuario = None
+
+#                if request.user.is_authenticated():
+                usuario = request.user
+                autor = Blogger.objects.get(usuario=usuario)
+
+                posteo = Posteo(
+                    titulo=informacion['titulo'],
+                    subtitulo=informacion['subtitulo'],
+                    autor=autor,
+                    contenido=informacion['contenido'],
+                    imagen=informacion['imagen'])               
+                posteo.save()
+                
+                return render(request, 'inicio.html')
+    else:
+
+            formulario = PosteoFormulario()
+
+    esBlogger = False
+
+    if Blogger.objects.filter(usuario=request.user.id):
+
+        esBlogger = True
+
+    return render(request, 'AppBlog/posteoFormulario.html',{"formulario":formulario, "esBlogger":esBlogger})
+
+@login_required
+def editarPosteo(request, posteo_id):
+    
+    posteo = Posteo.objects.get(id=posteo_id)
+
+    if request.method == "POST":
+        formulario = PosteoFormulario(request.POST, request.FILES)
+
+        if formulario.is_valid():
+            informacion = formulario.cleaned_data
+
+            posteo.titulo = informacion['titulo']
+            posteo.subtitulo = informacion['subtitulo']
+            posteo.contenido = informacion['contenido']
+            posteo.imagen = informacion['imagen']
+            
+            posteo.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        formulario = PosteoFormulario(initial={'titulo': posteo.titulo, 'subtitulo':posteo.subtitulo, 'contenido': posteo.contenido, 'imagen': posteo.imagen})
+        
+        
+    return render(request, 'AppBlog/editarPosteo.html', {'formulario': formulario, "posteo_id":posteo_id})
+
 ############## Vistas asociadas al modelo Blogger ##############
-# Listado de posteos.
+# Listado de bloggers.
 class BloggersLista(ListView):
     
     model = Blogger
     template_name = "AppBlog/blogger_list.html"
     
-# Detalle de posteo.
+# Detalle del blogger.
 class BloggerDetalle(DetailView):
     
     model = Blogger
     template_name = "AppBlog/blogger_detail.html"
     
-# Crear posteo.
+# Crear blogger.
 class BloggerCrear(CreateView):
     
     model = Blogger
     success_url = "./blogger/list"
     fields = ["usuario", "telefono", "direccion", "pais", "ciudad", "sitio_web", "compania", "acerca"]
 
-# Editar posteo.
+# Editar blogger.
 class BloggerEditar(UpdateView):
     
     model = Blogger
     success_url = "../blogger/list"
     fields = ["usuario", "telefono", "direccion", "pais", "ciudad", "sitio_web", "compania", "acerca"]
   
-# Eliminar posteo.   
+# Eliminar blogger.   
 class BloggerEliminar(DeleteView):
     
     model = Blogger
     success_url = "../blogger/list"
+
+@login_required
+def bloggerFormulario(request):
+    if request.method == 'POST':
+
+        formulario = BloggerFormulario(request.POST)
+
+        if formulario.is_valid():
+
+                informacion = formulario.cleaned_data
+
+#                usuario = None
+
+#                if request.user.is_authenticated():
+                usuario = request.user
+
+                blogger = Blogger(
+                    usuario=usuario,
+                    telefono=informacion['telefono'],
+                    direccion=informacion['direccion'],
+                    pais=informacion['pais'],
+                    ciudad=informacion['ciudad'],
+                    sitio_web=informacion['sitio_web'],
+                    compania=informacion['compania'],
+                    acerca=informacion['acerca'])               
+                blogger.save()
+                
+                return render(request, 'inicio.html')
+    else:
+
+            formulario = BloggerFormulario()
+
+    return render(request, 'AppBlog/bloggerFormulario.html',{"formulario":formulario})
 
 ############## Vistas asociadas a login, logout y registro ##############
 def login_request(request):
