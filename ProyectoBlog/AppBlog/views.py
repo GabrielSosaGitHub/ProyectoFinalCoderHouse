@@ -115,7 +115,9 @@ def editarPosteo(request, posteo_id):
             
             posteo.save()
 
-            return render(request, 'inicio.html')
+            posteos = Posteo.objects.all()
+
+            return render(request, 'inicio.html', {"posteos":posteos})
 
     else:
 
