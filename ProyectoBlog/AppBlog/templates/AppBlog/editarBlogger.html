@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+    {% block contenido2 %}
+        <h3 class="masthead-heading text-uppercase mb-0">Editar perfil de blogger</h3>
+    {% endblock %}
+
+    {% block contenido %}
+
+            {% if formulario.errors %}
+
+                <p>Se ha produciodo un error. Click <a href="{% url 'Inicio' %}">aquí</a> para volver al inicio.</p>
+
+            {% else %}
+
+            <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+
+                    <table>
+                            {{ formulario.as_table }}
+                    </table>
+                    <br>
+                    <div align="middle">
+                        <button class="btn btn-success" type="submit">Editar</button>
+                    </div>
+                    <br>
+            </form>
+
+            {% endif %}
+
+    {% endblock %}

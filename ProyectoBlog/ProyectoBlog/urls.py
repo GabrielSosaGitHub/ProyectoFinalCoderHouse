@@ -18,9 +18,11 @@ from django.urls import path, include
 
 from django.conf.urls.static import static
 from django.conf import settings
+from AppBlog.views import inicio
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', inicio),
     path('AppBlog/', include('AppBlog.urls')),
 
 ]

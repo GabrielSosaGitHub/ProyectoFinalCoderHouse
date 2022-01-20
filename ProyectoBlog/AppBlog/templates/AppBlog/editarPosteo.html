@@ -15,6 +15,12 @@
 
             {% endif %}
 
+            {% if esAutor == False %}
+
+                        <p>Este posteo no es de tu autoría. Click <a href="{% url 'ListaPosteos' %}">acá</a> para volver.</p>
+
+            {% else %}
+
             <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
 
                     <table>
@@ -22,9 +28,13 @@
                     </table>
                     <br>
                     <div align="middle">
-                        <button class="btn btn-success" type="submit">Editar</button>
+                        <button class="btn btn-success" type="submit">Guardar cambios</button>
+                        <a class="btn btn-success" href="{% url 'ListaPosteos' %}" style="background-color: darkslategrey">Regresar</a>
                     </div>
+                    <br>
 
             </form>
+
+            {% endif %}
 
     {% endblock %}

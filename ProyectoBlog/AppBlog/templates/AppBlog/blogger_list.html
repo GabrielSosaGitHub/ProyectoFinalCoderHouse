@@ -9,25 +9,24 @@
 
         {% block contenido %}
 
-          <p>Nuestros bloggers:</p> <br>
+        {% if object_list %}
+
           <ul>
               {% for blogger in object_list %}
-                  <li>
 
-                      <p>Nombre de usuario: {{ blogger.usuario.username }}</p>
-
-                              <p>
-                                <a href="{% url 'BloggerDetalle' blogger.id %}">Ver más</a>
-                                <a href="{% url 'BloggerEditar' blogger.id %}">Editar</a>
-                                <a href="{% url 'BloggerEliminar' blogger.id %}">Eliminar</a>
-
-                              </p>
-
-                  </li>
+                      <h5><a href="{% url 'BloggerDetalle' blogger.id %}"><i class="fas fa-user"></i> &nbsp &nbsp{{ blogger.usuario.username }}</a></h5>
+                      <br>
 
               {% endfor %}
 
           </ul>
-         
+
+        {% else %}
+
+          <h5> Aún no se han registrado bloggers en el sitio <i class="far fa-sad-cry"></i> </h5>
+          <br>
+
+
+        {% endif %}
 
         {% endblock %}

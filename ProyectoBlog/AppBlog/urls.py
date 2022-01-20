@@ -1,29 +1,30 @@
 from django.urls import path
 from AppBlog import views
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LogoutView
 
 from . import views
 
 
 urlpatterns = [
     path('inicio', views.inicio, name='Inicio'),
+    path('configuracionCuenta', views.configuracionCuenta, name='ConfiguracionCuenta'),
+    path('about', views.about, name='About'),
 
-    path('posteo/list', views.PosteosLista.as_view(), name='PosteosLista'),
+    # Posteos
+    path('listaPosteos', views.listaPosteos, name='ListaPosteos'),
     path(r'^detallePosteo/(?P<pk>\d+)$', views.PosteoDetalle.as_view(), name='PosteoDetalle'),
-    path(r'^nuevoPosteo$', views.PosteoCrear.as_view(), name='PosteoCrear'),
-    path(r'^editarPosteo/(?P<pk>\d+)$', views.PosteoEditar.as_view(), name='PosteoEditar'),
-    path(r'^borrarPosteo/(?P<pk>\d+)$', views.PosteoEliminar.as_view(), name='PosteoEliminar'),
-
     path('posteoFormulario', views.posteoFormulario, name='PosteoFormulario'),
+    path('eliminarPosteo/<posteo_id>/', views.eliminarPosteo, name='EliminarPosteo'),
+    path('confirmaEliminarPosteo/<posteo_id>/', views.confirmaEliminarPosteo, name='ConfirmaEliminarPosteo'),
     path('editarPosteo/<posteo_id>/', views.editarPosteo, name='EditarPosteo'),
 
+    # Bloggers
     path('blogger/list', views.BloggersLista.as_view(), name='BloggersLista'),
     path(r'^detalleBlogger/(?P<pk>\d+)$', views.BloggerDetalle.as_view(), name='BloggerDetalle'),
-    path(r'^nuevoBlogger$', views.BloggerCrear.as_view(), name='BloggerCrear'),
-    path(r'^editarBlogger/(?P<pk>\d+)$', views.BloggerEditar.as_view(), name='BloggerEditar'),
-    path(r'^borrarBlogger/(?P<pk>\d+)$', views.BloggerEliminar.as_view(), name='BloggerEliminar'),
-
     path('bloggerFormulario', views.bloggerFormulario, name='BloggerFormulario'),
+    path('eliminarBlogger/<blogger_id>/', views.eliminarBlogger, name='EliminarBlogger'),
+    path('confirmaEliminarBlogger/<blogger_id>/', views.confirmaEliminarBlogger, name='ConfirmaEliminarBlogger'),
+    path('editarBlogger/<blogger_id>/', views.editarBlogger, name='EditarBlogger'),
 
     path('login', views.login_request, name='Login'),
     path('register', views.register, name="Register"),

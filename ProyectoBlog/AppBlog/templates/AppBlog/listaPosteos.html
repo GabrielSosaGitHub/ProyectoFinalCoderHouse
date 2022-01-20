@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h3 class="masthead-heading text-uppercase mb-0">Posteos realizados</h3>
+        {% endblock %}
+
+        {% block contenido %}
+
+        {% if posteos %}
+
+          <ul>
+              {% for posteo in posteos %}
+                            
+              <!-- Divider-->
+              <hr class="my-4" />
+
+              <!-- Post preview-->
+              <div class="post-preview">
+                <a href="{% url 'PosteoDetalle' posteo.id %}">
+                    <h2 class="post-title">{{posteo.titulo}}</h2>
+                    <h3 class="post-subtitle">{{posteo.subtitulo}}</h3>
+                </a>
+                <p class="post-meta">
+                    Posteado por
+                    <a href="{% url 'BloggerDetalle' posteo.autor.usuario.id %}">{{posteo.autor.usuario.username}}</a>
+                    | {{posteo.creado}}
+                </p>
+            </div>
+            
+            <p class="post-meta">
+              <a href="{% url 'EditarPosteo' posteo.id %}">Editar</a>
+              <a href="{% url 'ConfirmaEliminarPosteo' posteo.id %}">Borrar</a>
+            </p>
+  
+
+              {% endfor %}
+
+          </ul>
+          
+        {% else %}
+
+          <h5> Actualmente no hay publicaciones en el sitio <i class="far fa-sad-cry"></i> </h5>
+          <br> 
+
+        {% endif %}
+
+        {% endblock %}

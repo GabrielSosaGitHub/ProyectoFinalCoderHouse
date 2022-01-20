@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class Blogger(models.Model):
 
-    usuario = models.ForeignKey(User, on_delete= models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete= models.CASCADE, unique=True)
     telefono = models.CharField(max_length=15)
     direccion = models.CharField(max_length=40)
     pais = models.CharField(max_length=20)
@@ -16,6 +16,7 @@ class Blogger(models.Model):
     compania = models.CharField(max_length=20)
     acerca = models.TextField()
     registrado = models.DateTimeField(auto_now_add=True)
+    foto = models.ImageField()
     
     def __str__(self):
         return f"Blogger: {self.usuario.username}. Email: {self.usuario.email}. Registrado: {self.registrado}."

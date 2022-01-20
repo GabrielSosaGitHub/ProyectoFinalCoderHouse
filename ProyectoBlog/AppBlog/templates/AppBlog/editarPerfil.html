@@ -17,10 +17,22 @@
 
         <div align="middle">
             <br>
-                <input type="submit" value="Editar">  
+                <button class="btn btn-success" type="submit">Editar</button>  
             <br>
         </div>
 
         </form>
+
+        {% if esBlogger == True %}
+
+            <hr class="my-4" />
+            <p>¿Querés editar tu perfil de blogger? Click <a href="{% url 'EditarBlogger' blogger_id %}">acá</a>.</p>
+
+        {% else %}
+
+        <hr class="my-4" />
+        <p>¿Querés convertirte en blogger? Click <a href="{% url 'BloggerFormulario' %}">acá</a>.</p>
+
+        {% endif %}
         
     {% endblock %}

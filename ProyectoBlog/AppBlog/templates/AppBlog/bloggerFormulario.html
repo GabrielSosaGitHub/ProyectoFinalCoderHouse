@@ -3,22 +3,30 @@
 
 {% load static %}
 
-{% block contenido %}
+        {% block contenido2 %}
+
+                <h3 class="masthead-heading text-uppercase mb-0">Nuevo blogger</h3>
+
+        {% endblock %}
+
+        {% block contenido %}
 
         {% if formulario.errors %}
 
-        <p>Se ha produciodo un error. Click <a href="{% url 'Inicio' }">aquí</a> para volver al inicio.</p>
+                <p>Se ha produciodo un error. Click <a href="{% url 'Inicio' %}">acá</a> para volver al inicio.</p>
 
         {% endif %}
 
-        <form action="/AppBlog/bloggerFormulario" method="POST">{% csrf_token %}
+        <form action="/AppBlog/bloggerFormulario" method="POST" enctype='multipart/form-data'>{% csrf_token %}
 
                 <table>
                         {{ formulario.as_table }}
                 </table>
-
-                <input type="submit" value="Enviar">
-
+                <br>
+                <div align="middle">
+                        <button class="btn btn-success" type="submit">Crear perfil</button>
+                </div>
+                <br>
         </form>
 
 {% endblock %}

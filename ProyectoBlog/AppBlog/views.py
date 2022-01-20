@@ -28,42 +28,38 @@ from django.contrib.auth.decorators import login_required
 
 # Vista de inicio.
 def inicio(request):
-    return render(request, 'inicio.html')
+    posteos = Posteo.objects.all()
+    return render(request, 'inicio.html', {"posteos":posteos})
+
+# Vista de inicio.
+def about(request):
+    return render(request, 'AppBlog/about.html')
+
+# Configuración de la cuenta de usuario.
+@login_required
+def configuracionCuenta(request):
+
+    esBlogger = False
+
+    if Blogger.objects.filter(usuario=request.user.id):
+
+        esBlogger = True
+        blogger = Blogger.objects.get(usuario=request.user)
+        return render(request, 'AppBlog/configuracionCuenta.html', {"esBlogger":esBlogger, "blogger_id":blogger.id})
+
+    return render(request, 'AppBlog/configuracionCuenta.html', {"esBlogger":esBlogger})
 
 ############## Vistas asociadas al modelo Posteo ##############
-# Listado de posteos.
-class PosteosLista(ListView):
-    
-    model = Posteo
-    template_name = "AppBlog/posteo_list.html"
-    
 # Detalle de posteo.
 class PosteoDetalle(DetailView):
     
     model = Posteo
     template_name = "AppBlog/posteo_detail.html"
-    
-# Crear posteo.
-class PosteoCrear(CreateView):
-    
-    model = Posteo
-    success_url = "./posteo/list"
-#    fields = ["titulo", "subtitulo", "autor", "contenido", "imagen"]
-    fields = ["titulo", "subtitulo", "autor", "contenido"]
 
-# Editar posteo.
-class PosteoEditar(UpdateView):
-    
-    model = Posteo
-    success_url = "../posteo/list"
-#    fields = ["titulo", "subtitulo", "autor", "contenido", "imagen"]
-    fields = ["titulo", "subtitulo", "autor", "contenido"]
-  
-# Eliminar posteo.   
-class PosteoEliminar(DeleteView):
-    
-    model = Posteo
-    success_url = "../posteo/list"
+def listaPosteos(request):
+
+    posteos = Posteo.objects.all()
+    return render(request, 'AppBlog/listaPosteos.html', {"posteos":posteos})
 
 @login_required
 def posteoFormulario(request):
@@ -75,9 +71,6 @@ def posteoFormulario(request):
 
                 informacion = formulario.cleaned_data
 
-#                usuario = None
-
-#                if request.user.is_authenticated():
                 usuario = request.user
                 autor = Blogger.objects.get(usuario=usuario)
 
@@ -89,7 +82,9 @@ def posteoFormulario(request):
                     imagen=informacion['imagen'])               
                 posteo.save()
                 
-                return render(request, 'inicio.html')
+                posteos = Posteo.objects.all()
+
+                return render(request, 'inicio.html', {"posteos":posteos} )
     else:
 
             formulario = PosteoFormulario()
@@ -125,9 +120,57 @@ def editarPosteo(request, posteo_id):
     else:
 
         formulario = PosteoFormulario(initial={'titulo': posteo.titulo, 'subtitulo':posteo.subtitulo, 'contenido': posteo.contenido, 'imagen': posteo.imagen})
+
+    esBlogger = False
+    esAutor = False
+
+    if Blogger.objects.filter(usuario=request.user.id):
+
+        esBlogger = True
+
+        if Blogger.objects.get(usuario=request.user) == posteo.autor:
+
+            esAutor = True
+
+    if Blogger.objects.filter(usuario=request.user.id) == posteo.autor:
+
+        esAutor = True    
         
-        
-    return render(request, 'AppBlog/editarPosteo.html', {'formulario': formulario, "posteo_id":posteo_id})
+    return render(request, 'AppBlog/editarPosteo.html', {'formulario': formulario, "posteo_id":posteo_id, "esBlogger":esBlogger, "esAutor":esAutor})
+
+@login_required
+def confirmaEliminarPosteo(request, posteo_id):
+
+    posteo = Posteo.objects.get(id=posteo_id)
+
+    esBlogger = False
+
+    if Blogger.objects.filter(usuario=request.user.id):
+
+        esBlogger = True
+
+        if Blogger.objects.get(usuario=request.user) == posteo.autor:
+
+            esAutor = True
+
+        else:
+
+            esAutor = False
+
+    if Blogger.objects.filter(usuario=request.user.id) == posteo.autor:
+
+        esAutor = True
+
+    return render(request, 'AppBlog/posteo_confirmar_eliminacion.html',{"posteo":posteo, "esBlogger":esBlogger, "esAutor":esAutor})
+
+@login_required
+def eliminarPosteo(request, posteo_id):
+
+    paraBorrar = Posteo.objects.get(id=posteo_id)
+    paraBorrar.delete()
+    posteos = Posteo.objects.all()
+
+    return render(request, 'AppBlog/listaPosteos.html', {"posteos":posteos})
 
 ############## Vistas asociadas al modelo Blogger ##############
 # Listado de bloggers.
@@ -142,39 +185,16 @@ class BloggerDetalle(DetailView):
     model = Blogger
     template_name = "AppBlog/blogger_detail.html"
     
-# Crear blogger.
-class BloggerCrear(CreateView):
-    
-    model = Blogger
-    success_url = "./blogger/list"
-    fields = ["usuario", "telefono", "direccion", "pais", "ciudad", "sitio_web", "compania", "acerca"]
-
-# Editar blogger.
-class BloggerEditar(UpdateView):
-    
-    model = Blogger
-    success_url = "../blogger/list"
-    fields = ["usuario", "telefono", "direccion", "pais", "ciudad", "sitio_web", "compania", "acerca"]
-  
-# Eliminar blogger.   
-class BloggerEliminar(DeleteView):
-    
-    model = Blogger
-    success_url = "../blogger/list"
-
 @login_required
 def bloggerFormulario(request):
     if request.method == 'POST':
 
-        formulario = BloggerFormulario(request.POST)
+        formulario = BloggerFormulario(request.POST, request.FILES)
 
         if formulario.is_valid():
 
                 informacion = formulario.cleaned_data
 
-#                usuario = None
-
-#                if request.user.is_authenticated():
                 usuario = request.user
 
                 blogger = Blogger(
@@ -185,15 +205,64 @@ def bloggerFormulario(request):
                     ciudad=informacion['ciudad'],
                     sitio_web=informacion['sitio_web'],
                     compania=informacion['compania'],
-                    acerca=informacion['acerca'])               
+                    acerca=informacion['acerca'],
+                    foto=informacion['foto'])               
                 blogger.save()
+
+                posteos = Posteo.objects.all()
                 
-                return render(request, 'inicio.html')
+                return render(request, 'inicio.html', {"posteos":posteos, "mensaje":f'¡Felicitaciones, {usuario.username}! Ahora formás parte del staff de bloggers &nbsp <i class="far fa-laugh-beam"></i>'})
     else:
 
             formulario = BloggerFormulario()
 
     return render(request, 'AppBlog/bloggerFormulario.html',{"formulario":formulario})
+
+@login_required
+def editarBlogger(request, blogger_id):
+    
+    blogger = Blogger.objects.get(id=blogger_id)
+
+    if request.method == "POST":
+        formulario = BloggerFormulario(request.POST, request.FILES)
+
+        if formulario.is_valid():
+            informacion = formulario.cleaned_data
+
+            blogger.telefono = informacion['telefono']
+            blogger.direccion = informacion['direccion']
+            blogger.pais = informacion['pais']
+            blogger.ciudad = informacion['ciudad']
+            blogger.sitio_web = informacion['sitio_web']
+            blogger.compania = informacion['compania']
+            blogger.acerca = informacion['acerca']
+            blogger.foto = informacion['foto']
+            
+            blogger.save()
+
+            posteos = Posteo.objects.all()
+             
+            return render(request, "inicio.html", {"mensaje":f'¡Los cambios se realizaron con éxito, {request.user.username}! &nbsp <i class="fas fa-laugh-wink"></i>', "posteos":posteos})
+
+    else:
+
+        formulario = BloggerFormulario(initial={'telefono': blogger.telefono, 'direccion':blogger.direccion, 'pais': blogger.pais, 'ciudad': blogger.ciudad, 'sitio_web':blogger.sitio_web, 'compania':blogger.compania, 'acerca':blogger.acerca, 'foto':blogger.foto})
+
+    return render(request, 'AppBlog/editarBlogger.html', {'formulario': formulario, "blogger_id":blogger_id})
+
+@login_required
+def confirmaEliminarBlogger(request, blogger_id):
+
+    blogger = Blogger.objects.get(id=blogger_id)
+    return render(request, 'AppBlog/blogger_confirmar_eliminacion.html',{"blogger":blogger})
+
+@login_required
+def eliminarBlogger(request, blogger_id):
+
+    paraBorrar = Blogger.objects.get(id=blogger_id)
+    paraBorrar.delete()
+
+    return render(request, 'inicio.html', {"posteos":Posteo.objects.all(), "mensaje":f'Ya no sos blogger dentro de la comunidad <i class="fas fa-heart-broken"></i>'})
 
 ############## Vistas asociadas a login, logout y registro ##############
 def login_request(request):
@@ -212,22 +281,30 @@ def login_request(request):
             if user is not None:
                 
                 login(request, user)
+
+                posteos = Posteo.objects.all()
                 
-                return render(request, "inicio.html", {"mensaje":f'Iniciaste sesión como {usuario}.'})
+                return render(request, "inicio.html", {"posteos":posteos, "mensaje":f'¡Iniciaste sesión como {usuario}!'})
                 
             else:
-                
-                return render(request, "inicio.html", {"mensaje":"Los datos ingresados son incorrectos."})
-                
+
+                return render(request, "inicio.html", {"mensaje":"Formulario erróneo."})
             
         else:
+
+            form = AuthenticationForm(request, data = request.POST)
+        
+            if form.is_valid():
             
-            return render(request, "inicio.html", {"mensaje":"Formulario erróneo."})
+                usuario = form.cleaned_data.get("username")
+                contrasenia = form.cleaned_data.get("password")
+
+            return render(request, "AppBlog/login.html", {"mensaje":"Los datos ingresados son incorrectos &nbsp &nbsp <i class='far fa-surprise'></i>"})
             
             
     
-    
-    form = AuthenticationForm()  #Formulario sin nada para hacer el login
+    # Formulario vacío para hacer el login.
+    form = AuthenticationForm() 
     
     return render(request, "AppBlog/login.html", {"form":form} )
 
@@ -243,8 +320,14 @@ def register(request):
             username = form.cleaned_data['username']
                                     
             form.save()
+
+            user = authenticate(username=username, password = form.cleaned_data['password1'])
+
+            login(request, user)
+
+            posteos = Posteo.objects.all()
                   
-            return render(request,"inicio.html",  {"mensaje":f"¡{username} fue creado exitosamente!"})
+            return render(request,"inicio.html",  {"posteos":posteos, "mensaje":f"¡{username} fue creado y se ha iniciado sesión exitosamente! <i class='fas fa-fist-raised'></i>"})
 
     else:
              
@@ -271,11 +354,25 @@ def editarPerfil(request):
             
             usuario.save()
             
+            posteos = Posteo.objects.all()
              
-            return render(request, "inicio.html")
+            return render(request, "inicio.html", {"mensaje":f'¡Los cambios se realizaron con éxito, {usuario.username}! &nbsp <i class="fas fa-laugh-wink"></i>', "posteos":posteos})
             
     else:
         
         formulario = UserEditForm(initial={'email':usuario.email})
-        
-    return render(request, "AppBlog/editarPerfil.html", {"formulario":formulario, "usuario":usuario})   
+
+    esBlogger = False
+
+    if Blogger.objects.filter(usuario=request.user.id):
+
+        esBlogger = True
+
+    if esBlogger == True:
+
+        blogger = Blogger.objects.get(usuario=request.user)      
+        return render(request, "AppBlog/editarPerfil.html", {"formulario":formulario, "usuario":usuario, "esBlogger":esBlogger, "blogger_id":blogger.id})
+
+    else:
+
+        return render(request, "AppBlog/editarPerfil.html", {"formulario":formulario, "usuario":usuario, "esBlogger":esBlogger})

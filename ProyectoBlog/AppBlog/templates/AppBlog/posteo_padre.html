@@ -35,18 +35,17 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Inicio' %}">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'PosteosLista' %}">Posteos</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'PosteoCrear' %}">Crear Posteo</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'BloggersLista' %}">Bloggers</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'BloggerCrear' %}">Registrar blogger</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Inicio' %}"><i class="fas fa-home"></i> &nbsp Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'ListaPosteos' %}"><i class="far fa-edit"></i>&nbsp Posteos</a></li>  
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'BloggersLista' %}"><i class="fas fa-users"></i> &nbsp Bloggers</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'About' %}"><i class="fas fa-info-circle"></i> &nbsp Acerca</a></li>
 
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('AppBlog/static/AppBlog/assets/img/post-bg.jpg')">
+        <header class="masthead" style="background-image: url({% static 'AppBlog/assets/img/post-bg.jpg'%})">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">

@@ -9,16 +9,21 @@
 
         {% block contenido %}
 
-        <p>Nombre de usuario: <em> {{blogger.usuario.username}}</em></p>
-<!--        <p>Nombre y apellido: <em> {{blogger.usuario.first_name}} {{blogger.usuario.last_name}}</em></p> -->
-        <p>Nombre y apellido: <em> {{blogger.usuario.get_full_name}}</em></p>
-        <p>Email: <em> {{blogger.usuario.email}}</em></p>
-        <p>Se unió a la comunidad: <em> {{blogger.registrado}}</em></p>
-          <p>
+        <p><abbr title="Nombre de usuario"><i class="fas fa-user"></i></abbr> &nbsp &nbsp <em> {{blogger.usuario.username}}</em></p>
+        <p><abbr title="Dirección de correo electrónico"><i class="fas fa-envelope"></i></abbr> &nbsp &nbsp <em> {{blogger.usuario.email}}</em></p></label>
+        <p><abbr title="Teléfono"><i class="fas fa-mobile-alt"></i></abbr> &nbsp &nbsp <em> {{blogger.telefono}}</em></p>
+        <p><abbr title="Nombre y apellido"><i class="fas fa-id-card"></i></abbr> &nbsp &nbsp <em> {{blogger.usuario.get_full_name}}</em></p>
+        <p><abbr title="Ciudad | País"><i class="fas fa-globe-africa"></i></abbr> &nbsp &nbsp <em> {{blogger.ciudad}} | {{blogger.pais}}</em></p>
+        <p><abbr title="Se unió a la comunidad"><i class="far fa-handshake"></i></abbr> &nbsp &nbsp <em> {{blogger.registrado}}</em></p>
+        <p><abbr title="Sitio web"><i class="fas fa-globe"></i></abbr> &nbsp &nbsp <a href="{{blogger.sitio_web}}"><em> {{blogger.sitio_web}}</em></a></p>
+        <p><abbr title="Companía"><i class="fas fa-building"></i></abbr> &nbsp &nbsp <em> {{blogger.compania}}</em></p>
+        <p><abbr title="Acerca"><i class="fas fa-info-circle"></i></abbr> &nbsp &nbsp <em> {{blogger.acerca}}</em></p>
+        <div align="middle">
+            <img src="{{ blogger.foto.url }}" width = "600"/>
+        </div>
+        <br>
 
-            <a href="{% url 'BloggersLista' %}">Regresar</a>
-
-          </p>
-         
+        <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'BloggersLista' %}">Lista de bloggers →</a></div>
+        
 
         {% endblock %}

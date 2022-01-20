@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+    {% block contenido2 %}
+        <h3 class="masthead-heading text-uppercase mb-0">Configuración</h3>
+    {% endblock %}
+
+    {% block contenido %}
+
+        <p><a href="{% url 'EditarPerfil' %}" style="text-decoration:none"><i class="fas fa-user"></i>&nbsp &nbsp <em>Editar perfil de usuario </em></a></p>
+
+        {% if esBlogger == True %}
+
+            <hr class="my-4" />
+            <p><a href="{% url 'EditarBlogger' blogger_id %}" style="text-decoration:none"><i class="fas fa-user"></i>&nbsp &nbsp <em>Editar perfil de blogger </em></a>
+            <p><a href="{% url 'PosteoFormulario'%}" style="text-decoration:none"><i class="far fa-edit"></i>&nbsp &nbsp <em>Crear un post </em></a>
+            <p><a href="{% url 'ConfirmaEliminarBlogger' blogger_id %}" style="text-decoration:none"><i class="far fa-times-circle"></i>&nbsp &nbsp <em>Darme de baja como blogger </em></a></p>
+
+        {% else %}
+
+        <hr class="my-4" />
+        <p>¿Querés convertirte en blogger? Click <a href="{% url 'BloggerFormulario' %}">acá</a>.</p>
+
+        {% endif %}
+        
+    {% endblock %}

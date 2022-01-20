@@ -1,10 +1,8 @@
-from socket import fromshare
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class BloggerFormulario(forms.Form):
-#    usuario = forms.CharField(max_length=50)
     telefono = forms.CharField(max_length=15)
     direccion = forms.CharField(max_length=40)
     pais = forms.CharField(max_length=20)
@@ -12,11 +10,11 @@ class BloggerFormulario(forms.Form):
     sitio_web = forms.URLField()
     compania = forms.CharField(max_length=20)
     acerca = forms.CharField(widget=forms.Textarea)
+    foto = forms.ImageField()
 
 class PosteoFormulario(forms.Form):
     titulo = forms.CharField(max_length=50)
     subtitulo = forms.CharField(max_length=100)
-#    autor = forms.CharField(max_length=50)
     contenido = forms.CharField(widget=forms.Textarea)
     imagen = forms.ImageField()
 
@@ -29,9 +27,8 @@ class UserRegisterForm(UserCreationForm):
     password2 = forms.CharField(label='Repetir contraseña', widget=forms.PasswordInput) 
    
     # Opcional
-    last_name = forms.CharField()
-    first_name = forms.CharField()
-    imagen_avatar = forms.ImageField(required=False)
+    last_name = forms.CharField(label='Nombre',)
+    first_name = forms.CharField(label='Apellido')
 
     class Meta:
         model = User

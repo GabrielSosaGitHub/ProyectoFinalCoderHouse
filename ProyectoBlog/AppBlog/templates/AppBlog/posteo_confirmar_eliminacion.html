@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h3 class="masthead-heading text-uppercase mb-0">Eliminar posteo</h3>
+        {% endblock %}
+
+        {% block contenido %}
+
+            {% if esBlogger == False  %}
+
+                <p>Aún no te registraste como blogger y no podés hacer posteos. Click <a href="{% url 'BloggerCrear' %}">acá</a> para convertirte en uno.</p>
+
+            {% else %}
+
+                {% if esAutor == True %}
+
+                    <form action="{% url 'EliminarPosteo' posteo.id %}" method="POST"> {% csrf_token %}
+
+                        ¿Estás seguro de eliminar el posteo "{{posteo.titulo}}" publicado originalmente el día {{posteo.creado}}?
+
+                        <div align="middle">
+                            <br>
+                                <button class="btn btn-success" type="submit" style="background-color: brown;">Sí, estoy seguro</button>
+                                <a class="btn btn-success" href="{% url 'ListaPosteos' %}">No, me arrepentí</a>  
+                            <br>
+                        </div>
+                        <br>
+
+                    </form>
+
+                {% else %}
+
+                    <p>Este posteo no es de tu autoría. Click <a href="{% url 'ListaPosteos' %}">acá</a> para volver.</p>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endblock %}

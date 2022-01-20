@@ -5,28 +5,35 @@
 
         {% block contenido2 %}
 
-        <h3 class="masthead-heading text-uppercase mb-0">Login</h3>
+            <h3 class="masthead-heading text-uppercase mb-0">Login</h3>
 
         {% endblock %}  
 
         {% block contenido %}
 
-            <form action="" method="POST">
+            {% if mensaje %}
 
-        {% csrf_token %}
+                <h3 class="masthead-heading text-uppercase mb-0">{{mensaje|safe}}</h3>
+                <br>
+                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'Login' %}">Volver →</a></div>
 
-        {{form.as_p}}
+            {% else %}
 
-        <input type="submit" value="Login">
+                <form action="" method="POST">
 
-    </form>
-    <br>
+                    {% csrf_token %}
+
+                    {{form.as_p}}
+
+                    <div align="middle">
+                        <button class="btn btn-success" type="submit">Login</button>
+                    </div>
+
+                </form>
+                <br>
+
+            {% endif %}
     
-    <h5>¿No sos usuario todavia? Entonces registrate.</h5>
-    <br>
-    <form action="{% url 'Register' %}">
-        <input type="submit" value="Registrate " />
-    </form>
-
+    <p>¿No sos usuario todavia? Click <a href="{% url 'Register' %}">acá</a> para unirte a la comunidad.</p>
     
         {% endblock %}

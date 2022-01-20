@@ -10,13 +10,16 @@
     {% block contenido %}
 
         <br>
-    
+        
         <h3>Ya no estás logueado en el Blog <i class="far fa-sad-tear"></i></h3>
 
         <br>
 
     <form action="{% url 'Login' %}">
-        <input type="submit" value="¿Volver a ingresar?" />
+        <div align="middle">
+            <button class="btn btn-success" type="submit">Volver a ingresar</button>
+        </div>
+        <br>
     </form>
     
     

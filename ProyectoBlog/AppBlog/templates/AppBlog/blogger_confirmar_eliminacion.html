@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "padre.html" %}
+
+{% load static %}
+
+        {% block contenido2 %}
+            <h3 class="masthead-heading text-uppercase mb-0">Dar de baja blogger</h3>
+        {% endblock %}
+
+        {% block contenido %}
+
+        <form action="" method="POST"> {% csrf_token %}
+
+        ¿Estás seguro de darte de baja como blogger en la comunidad, {{blogger.usuario.username}}?
+
+        <div align="middle">
+        <br>
+            <a class="btn btn-success" href="{% url 'EliminarBlogger' blogger.id %}" style="background-color: brown;">Sí, estoy seguro</a>
+            <a class="btn btn-success" href="{% url 'ConfiguracionCuenta' %}">No, me arrepentí</a>  
+        <br>
+        </div>
+        <br>
+
+                    </form>
+        {% endblock %}

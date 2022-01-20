@@ -17,11 +17,11 @@
 
                 {% if esBlogger == False %}
 
-                        <p>Aún no te registraste como blogger y no podés hacer posteos. Click <a href="{% url 'BloggerCrear' %}">acá</a> para convertirte en uno.</p>
+                        <p>Aún no te registraste como blogger y no podés hacer posteos. Click <a href="{% url 'BloggerFormulario' %}">acá</a> para convertirte en uno.</p>
 
                 {% else %}
 
-                <form action="/AppBlog/posteoFormulario" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+                <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
 
                         <table>
                                 {{ formulario.as_table }}
@@ -29,9 +29,9 @@
                         <br>
                         <div align="middle">
                                 <button class="btn btn-success" type="submit">Publicar</button>
+                                <a class="btn btn-success" href="{% url 'ListaPosteos' %}" style="background-color: darkslategrey">Lista de posteos →</a>
                         </div>
-
-                        <input type="submit" value="Enviar">
+                        <br>
 
                 </form>
 

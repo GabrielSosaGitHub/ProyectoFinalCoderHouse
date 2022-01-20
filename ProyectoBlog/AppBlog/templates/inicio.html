@@ -10,10 +10,51 @@
 
         {% block contenido %}
 
-            <h1>{{mensaje}}</h1>
+            {% if mensaje %}
 
-            <p>Lalalala</p>
+                <h1>{{mensaje|safe}}</h1>
 
+            {% else %}
+
+                <h1>¡Bienvenida/o!</h1>
+
+            {% endif %}
+
+            {% if posteos %}
+
+                {% for posteo in posteos|slice:":3" %}
+
+                <!-- Divider-->
+                <hr class="my-4" />
+
+                <!-- Post preview-->
+                <div class="post-preview">
+                    <a href="{% url 'PosteoDetalle' posteo.id %}">
+                        <h2 class="post-title">{{posteo.titulo}}</h2>
+                        <h3 class="post-subtitle">{{posteo.subtitulo}}</h3>
+                    </a>
+                    <p class="post-meta">
+                        Posteado por
+                        <a href="{% url 'BloggerDetalle' posteo.autor.usuario.id %}">{{posteo.autor.usuario.username}}</a>
+                        | {{posteo.creado}}
+                    </p>
+                </div>
+                
+                <p class="post-meta">
+                <a href="{% url 'EditarPosteo' posteo.id %}">Editar</a>
+                <a href="{% url 'ConfirmaEliminarPosteo' posteo.id %}">Borrar</a>
+                </p>              
+
+                {% endfor %}
+
+                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'ListaPosteos' %}">Ver más publicaciones →</a></div>
+
+            {% else %}
+
+                <p class="post-meta" align="middle"> No hay ningún posteo disponible <i class="far fa-frown"></i></p>
+                <p class="post-meta" align="middle"> ¿Querés publicar el tuyo? Click <a href="{% url 'PosteoFormulario' %}">acá</a>.</p>
+
+            {% endif %}
          
 
         {% endblock %}

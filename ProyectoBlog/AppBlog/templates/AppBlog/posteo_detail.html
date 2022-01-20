@@ -7,11 +7,10 @@
 
         <div class="post-heading">
           <h1>{{posteo.titulo}}</h1>
+          <br>
           <h2 class="subheading">{{posteo.subtitulo}}</h2>
           <span class="meta">
-            Posteado por
-            <a href="{% url 'BloggerDetalle' posteo.autor.id %}">{{posteo.autor.usuario.username}}</a>
-            | {{posteo.creado}}
+            Posteado por <a href="{% url 'BloggerDetalle' posteo.autor.id %}">{{posteo.autor.usuario.username}}</a> | {{posteo.creado}}
           </span>
         </div>
 
@@ -19,6 +18,9 @@
 
 
         {% block contenido2 %}
+
+        <i>Última actualización: {{posteo.actualizado}}</i>
+
         <article class="mb-4">
           <div class="container px-4 px-lg-5">
               <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -35,4 +37,8 @@
               </div>
           </div>
       </article>
+      <br>
+
+      <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'ListaPosteos' %}">Volver a posteos →</a></div>
+
       {% endblock %}
